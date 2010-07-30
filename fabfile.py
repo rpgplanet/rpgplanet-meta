@@ -16,7 +16,7 @@ env.services = project_docroots.keys()
 
 env.projects = projects = (
     "rpgcommon",
-) + project_docroots.keys()
+) + tuple(project_docroots.keys())
 
 libraries = (
 )
@@ -33,8 +33,8 @@ def setup():
 def install_requirements():
     """Install the required packages using pip"""
     for package in env.packages:
-        run('cd $(applicationpath); pip install -E . -r ./$package/freezed-requirements.txt' % package)
-        run('cd $(applicationpath); cd %s; ./../bin/python setup.py develop' % package)
+        run('cd $(applicationpath) && pip install -E . -r ./%s/freezed-requirements.txt' % package)
+        run('cd $(applicationpath) && cd %s && ./../bin/python setup.py develop' % package)
 
 def deploy_to_server():
     setup()
@@ -52,11 +52,12 @@ def deploy_preproduction(meta_version, dist_dir):
 
     env.release = 'current'
 
-    env.applicationpath = '/srv/applications/w-rpgplanet-cz/rpgplanet/%s' % env.metaversion
-
     env.meta_version = meta_version
     env.dist_dir = dist_dir
-    
+
+    env.applicationpath = '/srv/applications/w-rpgplanet-cz/rpgplanet/%s' % env.meta_version
+
+
     deploy_to_server()
 
 

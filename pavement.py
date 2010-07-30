@@ -26,22 +26,19 @@ setup(
     author = 'Almad',
     author_email='bugs@almad.net',
     license = 'BSD',                                                                                                                                                                                                                                                    
-    url='http://github.com/rpgplanet/rpgplanet-meta',                                                                                                                                                                                                       
-                                                                                                                                                                                                                                                                               
-    dependencies_git_repositories = [                                                                                                                                                                                                                                          
+    url='http://github.com/rpgplanet/rpgplanet-meta',
+
+    dependencies_git_repositories = [
         {
             'url': 'git://github.com/rpgplanet/rpgcommon.git',
-            'branch': 'master',
             'package_name': 'rpgcommon',
         },
         {
             'url': 'git://github.com/rpgplanet/rpghrac.git',
-            'branch': 'master',
             'package_name': 'rpghrac',
         },
         {
             'url': 'git://github.com/rpgplanet/rpgplanet.git',
-            'branch': 'master',
             'package_name': 'rpgplanet',
         },
     ],                                                                                                                                                                                                                                                                         
@@ -117,28 +114,40 @@ def prepare():
 def prepare_packages():
     curdir = os.getcwd()
 
-    options.package_dir = dir = mkdtemp(dir=all_root)
+    options.package_dir = dir = mkdtemp(dir=all_root, prefix='package-directory-')
     run_all_command('paver sdist --dist-dir=%s' % dir)
 
     os.chdir(curdir)
 
+@task
 def compute_meta_version():
-    # it should be easy to do it using git clone --reference=dependencies_git_repositories
-    raise NotImplementedError("Need cache in citools or we're f*** up")
+    from citools.version import compute_meta_version as cmv, replace_inits, replace_scripts, replace_version_in_file
+    meta_version = cmv(options.dependencies_git_repositories)
+
+    version = meta_version
+    version_str = '.'.join(map(str, version))
+
+    replace_inits(version, options.packages)
+#    replace_scripts(version, options.py_modules)
+
+    replace_version_in_file(version, 'setup.py')
+
+    options.version_meta = version_str
+    
 
 @task
-@needs(['compute_meta_version', 'prepare_packages',])
+@needs(['compute_meta_version', 'prepare_packages'])
 def deploy_preproduction():
     sh('fab deploy_preproduction:meta_version=%(metaversion)s,dist_dir=%(distdir)s' % {
-        'metaversion' : ,
-        'distdir' : ,
+        'metaversion' : compute_meta_version(),
+        'distdir' : options.package_dir,
     })
 
 @task
-@needs(['compute_meta_version', 'prepare_packages',])
+@needs(['compute_meta_version', 'prepare_packages'])
 def deploy():
-    sh('fab deploy_preproduction:meta_version=%(metaversion)s,dist_dir=%(distdir)s' % {
-        'metaversion' : ,
-        'distdir' : ,
+    sh('fab deploy:meta_version=%(metaversion)s,dist_dir=%(distdir)s' % {
+        'metaversion' : compute_meta_version(),
+        'distdir' : options.package_dir,
     })
 

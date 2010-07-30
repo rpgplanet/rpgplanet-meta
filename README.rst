@@ -5,5 +5,5 @@ Unlike rpgplanet-all, which is merely developer repository for convenience and h
 
 Not very important from developer perspective, but used heavily for deployment.
 
-Home of some scripting deployment stuff.
+Home of some scripting deployment stuff. You may look especially into pavement (for paver) which calls fab (and his fabfile).
 

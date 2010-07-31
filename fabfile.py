@@ -28,13 +28,15 @@ def setup():
     Setup a fresh virtualenv and install everything we need so it's ready to
     deploy to
     """
-    run('mkdir -p $(applicationpath); cd $(applicationpath); virtualenv .; easy_install pip')
+    require('applicationpath')
+    run('mkdir -p %(applicationpath)s && cd %(applicationpath)s && virtualenv . && ./bin/easy_install pip' % env)
 
 def install_requirements():
     """Install the required packages using pip"""
     for package in env.packages:
-        run('cd $(applicationpath) && pip install -E . -r ./%s/freezed-requirements.txt' % package)
-        run('cd $(applicationpath) && cd %s && ./../bin/python setup.py develop' % package)
+        env.package = package
+        run('cd %(applicationpath)s && pip install -E . -r ./%(package)s/freezed-requirements.txt' % env)
+        run('cd %(applicationpath)s && cd %(package)s && ./../bin/python setup.py develop' % env )
 
 def deploy_to_server():
     setup()
@@ -47,9 +49,6 @@ def deploy_to_server():
 
 def deploy_preproduction(meta_version, dist_dir):
     """Deploy the latest version of the site to the production server and """
-
-    env.hosts = ['melissar']
-
     env.release = 'current'
 
     env.meta_version = meta_version
@@ -63,9 +62,6 @@ def deploy_preproduction(meta_version, dist_dir):
 
 def deploy(meta_version, dist_dir):
     """Deploy the latest version of the site to the production server and """
-
-    env.hosts = ['kenshin:2222']
-
     env.applicationpath = '/srv/applications/w-rpgplanet-cz/rpgplanet/%s' % env.version
     env.user = 'w-rpgplanet-cz'
 
@@ -90,7 +86,7 @@ def resymlink_release():
 def migrate_database():
     """Run our migrations"""
     for package in env.packages:
-        run('cd $(applicationpath); cd %s; ./../bin/python manage.py syncdb --noinput --migrate' % package)
+        run(('cd %(applicationpath)s; cd %s; ./../bin/python manage.py syncdb --noinput --migrate' % package) % env )
 
 def restart_services():
     """Restart all project lighties"""

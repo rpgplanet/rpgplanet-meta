@@ -138,16 +138,16 @@ def compute_meta_version():
 @task
 @needs(['compute_meta_version', 'prepare_packages'])
 def deploy_preproduction():
-    sh('fab deploy_preproduction:meta_version=%(metaversion)s,dist_dir=%(distdir)s' % {
-        'metaversion' : compute_meta_version(),
+    sh('fab -H melissar deploy_preproduction:meta_version=%(metaversion)s,dist_dir=%(distdir)s' % {
+        'metaversion' : options.version_meta,
         'distdir' : options.package_dir,
     })
 
 @task
 @needs(['compute_meta_version', 'prepare_packages'])
 def deploy():
-    sh('fab deploy:meta_version=%(metaversion)s,dist_dir=%(distdir)s' % {
-        'metaversion' : compute_meta_version(),
+    sh('fab -H kenshin:2222 deploy:meta_version=%(metaversion)s,dist_dir=%(distdir)s' % {
+        'metaversion' : options.version_meta,
         'distdir' : options.package_dir,
     })
 

@@ -33,6 +33,14 @@ def setup():
     require('applicationpath')
     run('mkdir -p %(applicationpath)s && cd %(applicationpath)s && virtualenv . && ./bin/easy_install pip' % env)
 
+def upload_packages():
+    """ Upload packages from package directory to virtual environment """
+    put("%(distdir)s/* %(applicationpath)s" % env)
+    for package in env.packages:
+        env.package = package
+        # destory version suffix
+        run('cd %(applicationpath)s && tar xvzpf %(package)s-* && mv %(package)s-* %(package)s' % env )
+
 def install_requirements():
     """Install the required packages using pip"""
     for package in env.packages:
@@ -42,6 +50,7 @@ def install_requirements():
 
 def deploy_to_server():
     setup()
+    upload_packages()
     install_requirements()
     resymlink_media()
     migrate_database()

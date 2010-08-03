@@ -9,7 +9,7 @@ from paver.easy import *
 from paver.setuputils import setup, Bunch
 
 
-VERSION = (0, 1, 0)
+VERSION = (0, 1)
 
 __version__ = VERSION
 __versionstr__ = '.'.join(map(str, VERSION))
@@ -115,6 +115,8 @@ def prepare_packages():
     curdir = os.getcwd()
 
     options.package_dir = dir = mkdtemp(dir=all_root, prefix='package-directory-')
+    run_all_command('paver generate_setup')
+    run_all_command('python setup.py compute_version_git')
     run_all_command('paver sdist --dist-dir=%s' % dir)
 
     os.chdir(curdir)
@@ -133,7 +135,7 @@ def compute_meta_version():
     replace_version_in_file(version, 'setup.py')
 
     options.version_meta = version_str
-    
+
 
 @task
 @needs(['compute_meta_version', 'prepare_packages'])

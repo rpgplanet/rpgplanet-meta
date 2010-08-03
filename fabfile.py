@@ -1,9 +1,11 @@
 from fabric.api import *
 
-project_docroots = {
+env.project_docroots = project_docroots = {
     "rpgplanet" : "/srv/www/rpgplanet.cz/www_root/www/htdocs",
     # sub for subdomains
-    "rpghrac" : "/srv/www/rpghrac.cz/www_root/htdocs/sub/",
+    "rpghrac" : "/srv/www/rpghrac.cz/www_root/htdocs/sub",
+    # sub for subdomains
+    "hrac" : "/srv/www/rpghrac.cz/www_root/htdocs",
 }
 
 # this might be read from mypage-all/runcommand.py to have things on one place
@@ -35,7 +37,7 @@ def install_requirements():
     """Install the required packages using pip"""
     for package in env.packages:
         env.package = package
-        run('cd %(applicationpath)s && pip install -E . -r ./%(package)s/freezed-requirements.txt' % env)
+        run('cd %(applicationpath)s && ./bin/pip install -E . -r ./%(package)s/freezed-requirements.txt' % env)
         run('cd %(applicationpath)s && cd %(package)s && ./../bin/python setup.py develop' % env )
 
 def deploy_to_server():
@@ -56,7 +58,6 @@ def deploy_preproduction(meta_version, dist_dir):
 
     env.applicationpath = '/srv/applications/w-rpgplanet-cz/rpgplanet/%s' % env.meta_version
 
-
     deploy_to_server()
 
 
@@ -69,19 +70,21 @@ def deploy(meta_version, dist_dir):
     env.dist_dir = dist_dir
 
     deploy_to_server()
+    restart_services()
 
 def resymlink_media():
-    raise NotImplementedError()
+    # TODO: static media are now on same server, this may be not so in the future
     for package in env.packages:
         if package in project_docroots:
-            run('cd %s; ln -sf' % project_docroots[package])
+            run(('cd %(applicationpath)s; ln -sf `pwd`/%(package)s/static/ %(docroot)s/%(meta_version)s/' % {
+                'docroot' : project_docroots[package],
+                'package' : package,
+                'meta_version' : env.meta_version,
+            }) % env)
 
 def resymlink_release():
     """Symlink our current release, uploads and settings file"""
-    raise NotImplementedError()
-#    run('cd $(path); rm project; ln -s releases/current project; rm releases/current; ln -s $(release) releases/current')
-#    run('cd $(path)/releases/current/; ln -s settings_$(settings).py settings.py', fail='ignore')
-#    run('cd $(path)/releases/current/media/; ln -s ../../../shared/uploads/ .', fail='ignore')
+    run('cd %(applicationpath)s && cd .. && ln -sf %(applicationpath)s `pwd`/current' % env)
 
 def migrate_database():
     """Run our migrations"""
@@ -93,3 +96,7 @@ def restart_services():
     for service in env.services:
         sudo('svc -t /etc/service/%s' % service)
 
+def downgrade_release():
+    raise NotImplementedError()
+    #TODO: Got to old release (probably given?), resymlink back, run migrations
+    

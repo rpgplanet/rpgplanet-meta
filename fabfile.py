@@ -39,7 +39,7 @@ def upload_packages():
     for package in env.packages:
         env.package = package
         # destory version suffix
-        run('cd %(applicationpath)s && tar xvzpf %(package)s-* && mv %(package)s-* %(package)s' % env )
+        run('cd %(applicationpath)s && tar xvzpf %(package)s-* && rm %(package)s-*.tar.* && mv %(package)s-* %(package)s' % env )
 
 def install_requirements():
     """Install the required packages using pip"""

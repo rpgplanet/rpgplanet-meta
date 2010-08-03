@@ -35,7 +35,7 @@ def setup():
 
 def upload_packages():
     """ Upload packages from package directory to virtual environment """
-    put("%(distdir)s/* %(applicationpath)s" % env)
+    put("%(dist_dir)s/*" % env, "%(applicationpath)s" % env)
     for package in env.packages:
         env.package = package
         # destory version suffix

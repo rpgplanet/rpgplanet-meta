@@ -5,7 +5,7 @@ env.project_docroots = project_docroots = {
     # sub for subdomains
     "rpghrac" : "/srv/www/rpghrac.cz/www_root/htdocs/sub",
     # sub for subdomains
-    "hrac" : "/srv/www/rpghrac.cz/www_root/htdocs",
+    # "hrac" : "/srv/www/rpghrac.cz/www_root/htdocs",
 }
 
 # this might be read from mypage-all/runcommand.py to have things on one place

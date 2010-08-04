@@ -45,7 +45,7 @@ def install_requirements():
     """Install the required packages using pip"""
     for package in env.packages:
         env.package = package
-        run('cd %(applicationpath)s && ./bin/pip install -E . -r ./%(package)s/freezed-requirements.txt' % env)
+        run('cd %(applicationpath)s && ./bin/pip install -E . -r ./%(package)s/requirements.txt' % env)
         run('cd %(applicationpath)s && cd %(package)s && ./../bin/python setup.py develop' % env )
 
 def deploy_to_server():

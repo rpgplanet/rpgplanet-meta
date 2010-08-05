@@ -85,11 +85,9 @@ def resymlink_media():
     # TODO: static media are now on same server, this may be not so in the future
     for package in env.packages:
         if package in project_docroots:
-            run(('cd %(applicationpath)s; ln -sf `pwd`/%(package)s/static/ %(docroot)s/%(meta_version)s/' % {
-                'docroot' : project_docroots[package],
-                'package' : package,
-                'meta_version' : env.meta_version,
-            }) % env)
+	    env.docroot = project_docroots[package]
+	    env.package = package
+            run('cd %(applicationpath)s; ln -sf `pwd`/%(package)s/static/ %(docroot)s/%(meta_version)s' % env)
 
 def resymlink_release():
     """Symlink our current release, uploads and settings file"""
@@ -98,7 +96,8 @@ def resymlink_release():
 def migrate_database():
     """Run our migrations"""
     for package in env.packages:
-        run(('cd %(applicationpath)s; cd %s; ./../bin/python manage.py syncdb --noinput --migrate' % package) % env )
+        env.package = package
+        run('cd %(applicationpath)s; cd %(package)s; ./../bin/python manage.py syncdb --noinput --migrate' % env )
 
 def restart_services():
     """Restart all project lighties"""

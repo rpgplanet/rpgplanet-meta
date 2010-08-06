@@ -97,7 +97,7 @@ def migrate_database():
     """Run our migrations"""
     for package in env.packages:
         env.package = package
-        run('cd %(applicationpath)s; cd %(package)s; ./../bin/python manage.py syncdb --noinput --migrate' % env )
+        run('cd %(applicationpath)s; cd %(package)s/%(package)s; ./../../bin/python manage.py syncdb --noinput --migrate' % env )
 
 def restart_services():
     """Restart all project lighties"""

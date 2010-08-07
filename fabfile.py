@@ -87,7 +87,7 @@ def resymlink_media():
         if package in project_docroots:
 	    env.docroot = project_docroots[package]
 	    env.package = package
-            run('cd %(applicationpath)s; ln -sf `pwd`/%(package)s/static/ %(docroot)s/%(meta_version)s' % env)
+            run('cd %(applicationpath)s; ln -sf `pwd`/%(package)s/%(package)s/static/ %(docroot)s/%(meta_version)s' % env)
 
 def resymlink_release():
     """Symlink our current release, uploads and settings file"""

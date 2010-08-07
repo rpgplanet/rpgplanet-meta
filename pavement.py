@@ -141,16 +141,32 @@ def compute_meta_version():
 @task
 @needs(['compute_meta_version', 'prepare_packages'])
 def deploy_preproduction():
-    sh('fab -H melissar deploy_preproduction:meta_version=%(metaversion)s,dist_dir=%(distdir)s' % {
+    # prepare_packages means versions are set properly
+    import rpgcommon
+    import rpgplanet
+    import rpghrac
+
+    sh('fab -H melissar deploy_preproduction:meta_version=%(metaversion)s,rpgplanet_version=%(rpgplanet_version)s,rpghrac_version=%(rpghrac_version)s,rpgcommon_version=%(rpgcommon_version)s,dist_dir=%(distdir)s' % {
         'metaversion' : options.version_meta,
         'distdir' : options.package_dir,
+        'rpgplanet_version' : rpgplanet.__versionstr__,
+        'rpghrac_version' : rpghrac.__versionstr__,
+        'rpgcommon_version' : rpgcommon.__versionstr__,
     })
 
 @task
 @needs(['compute_meta_version', 'prepare_packages'])
 def deploy():
-    sh('fab -H kenshin:2222 deploy:meta_version=%(metaversion)s,dist_dir=%(distdir)s' % {
+    # prepare_packages means versions are set properly
+    import rpgcommon
+    import rpgplanet
+    import rpghrac
+
+    sh('fab -H kenshin:2222 deploy_preproduction:meta_version=%(metaversion)s,rpgplanet_version=%(rpgplanet_version)s,rpghrac_version=%(rpghrac_version)s,rpgcommon_version=%(rpgcommon_version)s,dist_dir=%(distdir)s' % {
         'metaversion' : options.version_meta,
         'distdir' : options.package_dir,
+        'rpgplanet_version' : rpgplanet.__versionstr__,
+        'rpghrac_version' : rpghrac.__versionstr__,
+        'rpgcommon_version' : rpgcommon.__versionstr__,
     })
 

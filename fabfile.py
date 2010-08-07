@@ -58,11 +58,16 @@ def deploy_to_server():
     restart_services()
     
 
-def deploy_preproduction(meta_version, dist_dir):
+def deploy_preproduction(meta_version, dist_dir, rpgplanet_version, rpghrac_version, rpgcommon_version):
     """Deploy the latest version of the site to the production server and """
 
     env.meta_version = meta_version
     env.dist_dir = dist_dir
+    env.project_versions = {
+        'rpgplanet' : rpgplanet_version,
+        'rpghrac' : rpghrac_version,
+        'rpgcommon' : rpgcommon_version,
+    }
 
     env.applicationpath = '/srv/applications/w-rpgplanet-cz/rpgplanet/%s' % env.meta_version
     env.user = 'w-rpgplanet-cz'
@@ -70,11 +75,16 @@ def deploy_preproduction(meta_version, dist_dir):
     deploy_to_server()
 
 
-def deploy(meta_version, dist_dir):
+def deploy(meta_version, dist_dir, rpgplanet_version, rpghrac_version, rpgcommon_version):
     """Deploy the latest version of the site to the production server and """
     
     env.meta_version = meta_version
     env.dist_dir = dist_dir
+    env.project_versions = {
+        'rpgplanet' : rpgplanet_version,
+        'rpghrac' : rpghrac_version,
+        'rpgcommon' : rpgcommon_version,
+    }
 
     env.applicationpath = '/srv/applications/w-rpgplanet-cz/rpgplanet/%s' % env.meta_version
     env.user = 'w-rpgplanet-cz'
@@ -87,7 +97,8 @@ def resymlink_media():
         if package in project_docroots:
 	    env.docroot = project_docroots[package]
 	    env.package = package
-            run('cd %(applicationpath)s; ln -sf `pwd`/%(package)s/%(package)s/static/ %(docroot)s/%(meta_version)s' % env)
+            env.project_version = env.project_versions[package]
+            run('cd %(applicationpath)s; ln -sf `pwd`/%(package)s/%(package)s/static/ %(docroot)s/%(project_version)s' % env)
 
 def resymlink_release():
     """Symlink our current release, uploads and settings file"""

@@ -101,6 +101,7 @@ def migrate_database():
 
 def restart_services():
     """Restart all project lighties"""
+    env.user = ''
     for package in env.packages:
         sudo('svc -t /etc/service/%s' % package)
 

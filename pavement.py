@@ -122,6 +122,7 @@ def prepare_packages():
     os.chdir(curdir)
 
 @task
+@needs('generate_setup')
 def compute_meta_version():
     from citools.version import compute_meta_version as cmv, replace_inits, replace_scripts, replace_version_in_file
     meta_version = cmv(options.dependencies_git_repositories)

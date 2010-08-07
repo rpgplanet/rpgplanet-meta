@@ -60,26 +60,26 @@ def deploy_to_server():
 
 def deploy_preproduction(meta_version, dist_dir):
     """Deploy the latest version of the site to the production server and """
-    env.release = 'current'
 
     env.meta_version = meta_version
     env.dist_dir = dist_dir
 
     env.applicationpath = '/srv/applications/w-rpgplanet-cz/rpgplanet/%s' % env.meta_version
+    env.user = 'w-rpgplanet-cz'
 
     deploy_to_server()
 
 
 def deploy(meta_version, dist_dir):
     """Deploy the latest version of the site to the production server and """
-    env.applicationpath = '/srv/applications/w-rpgplanet-cz/rpgplanet/%s' % env.version
-    env.user = 'w-rpgplanet-cz'
-
+    
     env.meta_version = meta_version
     env.dist_dir = dist_dir
 
+    env.applicationpath = '/srv/applications/w-rpgplanet-cz/rpgplanet/%s' % env.meta_version
+    env.user = 'w-rpgplanet-cz'
+
     deploy_to_server()
-    restart_services()
 
 def resymlink_media():
     # TODO: static media are now on same server, this may be not so in the future
@@ -101,8 +101,8 @@ def migrate_database():
 
 def restart_services():
     """Restart all project lighties"""
-    for service in env.services:
-        sudo('svc -t /etc/service/%s' % service)
+    for package in env.packages:
+        sudo('svc -t /etc/service/%s' % package)
 
 def downgrade_release():
     raise NotImplementedError()

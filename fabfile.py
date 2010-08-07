@@ -115,6 +115,10 @@ def restart_services():
     del env['user']
     for service in env.services:
         sudo('svc -t /etc/service/%s' % service)
+        # this sucks and shall be handled by startup/service; when some oracle will answer
+        # http://stackoverflow.com/questions/3431029/socket-permissions-when-running-django-with-fastcgi
+        # we'll get rid of it
+        sudo('chmod 0770 /var/www/fastcgi/sockets/w-rpgplanet-cz/%s.socket' % service)
 
 def downgrade_release():
     raise NotImplementedError()

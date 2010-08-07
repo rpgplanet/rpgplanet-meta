@@ -101,9 +101,9 @@ def migrate_database():
 
 def restart_services():
     """Restart all project lighties"""
-    env.user = ''
-    for package in env.packages:
-        sudo('svc -t /etc/service/%s' % package)
+    del env['user']
+    for service in env.services:
+        sudo('svc -t /etc/service/%s' % service)
 
 def downgrade_release():
     raise NotImplementedError()

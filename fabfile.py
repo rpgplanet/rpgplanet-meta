@@ -114,7 +114,7 @@ def migrate_database():
 
 def restart_services():
     """Restart all project lighties"""
-    del env['user']
+    env.user = 'almad' 
     for service in env.services:
         sudo('svc -t /etc/service/%s' % service)
 

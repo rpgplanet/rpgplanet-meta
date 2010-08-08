@@ -100,11 +100,11 @@ def resymlink_media():
 	    env.docroot = project_docroots[package]
 	    env.package = package
             env.project_version = env.project_versions[package]
-            run('cd %(applicationpath)s; ln -sf `pwd`/%(package)s/%(package)s/static/ %(docroot)s/%(project_version)s' % env)
+            run('cd %(applicationpath)s && ln -sf `pwd`/%(package)s/%(package)s/static/ %(docroot)s/%(project_version)s' % env)
 
 def resymlink_release():
     """Symlink our current release, uploads and settings file"""
-    run('cd %(applicationpath)s && cd .. && ln -sf %(applicationpath)s `pwd`/current' % env)
+    run('cd %(applicationpath)s && cd .. && rm `pwd`/current && ln -sf %(applicationpath)s `pwd`/current' % env)
 
 def migrate_database():
     """Run our migrations"""

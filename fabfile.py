@@ -117,6 +117,8 @@ def restart_services():
     del env['user']
     for service in env.services:
         sudo('svc -t /etc/service/%s' % service)
+
+    for service in env.services:
         # this sucks and shall be handled by startup/service; when some oracle will answer
         # http://stackoverflow.com/questions/3431029/socket-permissions-when-running-django-with-fastcgi
         # we'll get rid of it

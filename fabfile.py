@@ -3,9 +3,9 @@ from fabric.api import *
 env.project_docroots = project_docroots = {
     "rpgplanet" : "/srv/www/rpgplanet.cz/www_root/www/htdocs",
     # sub for subdomains
-    "rpghrac" : "/srv/www/rpghrac.cz/www_root/htdocs/sub",
+    "rpghrac" : "/srv/www/rpghrac.cz/www_root/htdocs",
     # sub for subdomains
-    # "hrac" : "/srv/www/rpghrac.cz/www_root/htdocs",
+    "metaplayer" : "/srv/www/rpghrac.cz/www_root/htdocs/meta",
 }
 
 # this might be read from mypage-all/runcommand.py to have things on one place
@@ -58,7 +58,7 @@ def deploy_to_server():
     restart_services()
     
 
-def deploy_preproduction(meta_version, dist_dir, rpgplanet_version, rpghrac_version, rpgcommon_version):
+def deploy_preproduction(meta_version, dist_dir, rpgplanet_version, rpghrac_version, rpgcommon_version, metaplayer_version):
     """Deploy the latest version of the site to the production server and """
 
     env.meta_version = meta_version
@@ -67,6 +67,7 @@ def deploy_preproduction(meta_version, dist_dir, rpgplanet_version, rpghrac_vers
         'rpgplanet' : rpgplanet_version,
         'rpghrac' : rpghrac_version,
         'rpgcommon' : rpgcommon_version,
+        'metaplayer' : metaplayer_version,
     }
 
     env.applicationpath = '/srv/applications/w-rpgplanet-cz/rpgplanet/%s' % env.meta_version
@@ -75,7 +76,7 @@ def deploy_preproduction(meta_version, dist_dir, rpgplanet_version, rpghrac_vers
     deploy_to_server()
 
 
-def deploy(meta_version, dist_dir, rpgplanet_version, rpghrac_version, rpgcommon_version):
+def deploy(meta_version, dist_dir, rpgplanet_version, rpghrac_version, rpgcommon_version, metaplayer_version):
     """Deploy the latest version of the site to the production server and """
     
     env.meta_version = meta_version
@@ -84,6 +85,7 @@ def deploy(meta_version, dist_dir, rpgplanet_version, rpghrac_version, rpgcommon
         'rpgplanet' : rpgplanet_version,
         'rpghrac' : rpghrac_version,
         'rpgcommon' : rpgcommon_version,
+        'metaplayer' : metaplayer_version,
     }
 
     env.applicationpath = '/srv/applications/w-rpgplanet-cz/rpgplanet/%s' % env.meta_version

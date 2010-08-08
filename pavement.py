@@ -137,9 +137,13 @@ def compute_meta_version():
 
     options.version_meta = version_str
 
+@task
+def clear_dependencies():
+    run_all_command('git checkout .')
+    run_all_command('git checkout release')
 
 @task
-@needs(['compute_meta_version', 'prepare_packages'])
+@needs(['clear_dependencies', 'compute_meta_version', 'prepare_packages'])
 def deploy_preproduction():
     # prepare_packages means versions are set properly
     import rpgcommon
@@ -155,7 +159,7 @@ def deploy_preproduction():
     })
 
 @task
-@needs(['compute_meta_version', 'prepare_packages'])
+@needs(['clear_dependencies', 'compute_meta_version', 'prepare_packages'])
 def deploy():
     # prepare_packages means versions are set properly
     import rpgcommon

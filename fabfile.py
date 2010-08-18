@@ -3,7 +3,7 @@ from fabric.api import *
 env.project_docroots = project_docroots = {
     "rpgplanet" : "/srv/www/rpgplanet.cz/www_root/www/htdocs",
     # sub for subdomains
-    "rpghrac" : "/srv/www/rpghrac.cz/www_root/htdocs",
+    "rpghrac" : "/srv/www/rpghrac.cz/www_root/htdocs/sub",
     # sub for subdomains
     "metaplayer" : "/srv/www/rpghrac.cz/www_root/htdocs/meta",
 }

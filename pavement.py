@@ -155,7 +155,7 @@ def deploy_preproduction():
     import rpghrac
     import metaplayer
 
-    sh('fab -H melissar deploy_preproduction:meta_version=%(metaversion)s,rpgplanet_version=%(rpgplanet_version)s,rpghrac_version=%(rpghrac_version)s,rpgcommon_version=%(rpgcommon_version)s,metaplayer_version=%(metaplayer_version)s,dist_dir=%(distdir)s' % {
+    sh('fab -H melissar deploy:meta_version=%(metaversion)s,rpgplanet_version=%(rpgplanet_version)s,rpghrac_version=%(rpghrac_version)s,rpgcommon_version=%(rpgcommon_version)s,metaplayer_version=%(metaplayer_version)s,dist_dir=%(distdir)s' % {
         'metaversion' : options.version_meta,
         'distdir' : options.package_dir,
         'rpgplanet_version' : rpgplanet.__versionstr__,
@@ -173,7 +173,7 @@ def deploy():
     import rpghrac
     import metaplayer
 
-    sh('fab -H kenshin:2222 deploy_preproduction:meta_version=%(metaversion)s,rpgplanet_version=%(rpgplanet_version)s,rpghrac_version=%(rpghrac_version)s,rpgcommon_version=%(rpgcommon_version)s,metaplayer_version=%(metaplayer_version)s,dist_dir=%(distdir)s' % {
+    sh('fab -H kenshin:2222 deploy:meta_version=%(metaversion)s,rpgplanet_version=%(rpgplanet_version)s,rpghrac_version=%(rpghrac_version)s,rpgcommon_version=%(rpgcommon_version)s,metaplayer_version=%(metaplayer_version)s,dist_dir=%(distdir)s' % {
         'metaversion' : options.version_meta,
         'distdir' : options.package_dir,
         'rpgplanet_version' : rpgplanet.__versionstr__,

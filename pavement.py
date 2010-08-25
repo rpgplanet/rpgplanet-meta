@@ -1,3 +1,4 @@
+from datetime import datetime
 import os
 from os.path import join, pardir, abspath, dirname, split
 import sys
@@ -172,6 +173,8 @@ def deploy():
     import rpgplanet
     import rpghrac
     import metaplayer
+
+    run_all_command('git tag -a release/rpgplanet-meta-%s -m "Tagging new release on %s"' % (options.version_meta, datetime.now().strftime("%Y-%m-%d %H-%M-%S")))
 
     sh('fab -H kenshin:2222 deploy:meta_version=%(metaversion)s,rpgplanet_version=%(rpgplanet_version)s,rpghrac_version=%(rpghrac_version)s,rpgcommon_version=%(rpgcommon_version)s,metaplayer_version=%(metaplayer_version)s,dist_dir=%(distdir)s' % {
         'metaversion' : options.version_meta,

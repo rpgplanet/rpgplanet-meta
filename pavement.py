@@ -130,7 +130,7 @@ def prepare_packages():
 @needs('generate_setup')
 def compute_meta_version():
     from citools.version import compute_meta_version as cmv, replace_inits, replace_scripts, replace_version_in_file
-    meta_version = cmv(options.dependencies_git_repositories)
+    meta_version = cmv(options.dependencies_git_repositories, accepted_tag_pattern="rpgplanet-meta-[0-9]*")
 
     version = meta_version
     version_str = '.'.join(map(str, version))

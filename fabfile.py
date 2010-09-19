@@ -2,6 +2,7 @@ from fabric.api import *
 
 env.project_docroots = project_docroots = {
     "rpgplanet" : "/srv/www/rpgplanet.cz/www_root/www/htdocs",
+    "rpgscheduler" : "/srv/www/rpgplanet.cz/www_root/akce/htdocs",
     # sub for subdomains
     "rpghrac" : "/srv/www/rpghrac.cz/www_root/htdocs/sub",
     # sub for subdomains
@@ -58,7 +59,7 @@ def deploy_to_server():
     restart_services()
     
 
-def deploy(meta_version, dist_dir, rpgplanet_version, rpghrac_version, rpgcommon_version, metaplayer_version):
+def deploy(meta_version, dist_dir, rpgplanet_version, rpghrac_version, rpgcommon_version, metaplayer_version, rpgscheduler_version):
     """Deploy the latest version of the site to the production server and """
     
     env.meta_version = meta_version
@@ -66,6 +67,7 @@ def deploy(meta_version, dist_dir, rpgplanet_version, rpghrac_version, rpgcommon
     env.project_versions = {
         'rpgplanet' : rpgplanet_version,
         'rpghrac' : rpghrac_version,
+	'rpgscheduler' : rpgscheduler_version,
         'rpgcommon' : rpgcommon_version,
         'metaplayer' : metaplayer_version,
     }

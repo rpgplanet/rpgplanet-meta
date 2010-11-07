@@ -46,6 +46,8 @@ def install_requirements():
     """Install the required packages using pip"""
     for package in env.packages:
         env.package = package
+        # paver is special because it is required for some egg_infos
+        run('cd %(applicationpath)s && ./bin/pip install -E . paver' % env)
         run('cd %(applicationpath)s && ./bin/pip install -E . -r ./%(package)s/requirements.txt' % env)
         run('cd %(applicationpath)s && cd %(package)s && ./../bin/python setup.py develop' % env )
 

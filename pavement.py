@@ -184,7 +184,7 @@ def deploy():
 
     run_all_command('git tag -a release/rpgplanet-meta-%s -m "Tagging new release on %s"' % (options.version_meta, datetime.now().strftime("%Y-%m-%d %H-%M-%S")))
 
-    sh('fab -H kenshin:2222 deploy:meta_version=%(metaversion)s,rpgplanet_version=%(rpgplanet_version)s,rpghrac_version=%(rpghrac_version)s,rpgcommon_version=%(rpgcommon_version)s,metaplayer_version=%(metaplayer_version)s,rpgscheduler_version=%(rpgscheduler_version)s,dist_dir=%(distdir)s' % {
+    sh('fab -H 80.79.23.210 deploy:meta_version=%(metaversion)s,rpgplanet_version=%(rpgplanet_version)s,rpghrac_version=%(rpghrac_version)s,rpgcommon_version=%(rpgcommon_version)s,metaplayer_version=%(metaplayer_version)s,rpgscheduler_version=%(rpgscheduler_version)s,dist_dir=%(distdir)s' % {
         'metaversion' : options.version_meta,
         'distdir' : options.package_dir,
         'rpgplanet_version' : rpgplanet.__versionstr__,

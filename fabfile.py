@@ -1,12 +1,12 @@
 from fabric.api import *
 
 env.project_docroots = project_docroots = {
-    "rpgplanet" : "/srv/www/rpgplanet.cz/www_root/www/htdocs",
-    "rpgscheduler" : "/srv/www/rpgplanet.cz/www_root/akce/htdocs",
+    "rpgplanet" : "/srv/rpgplanet.cz/www_root/www/htdocs",
+    "rpgscheduler" : "/srv/rpgplanet.cz/www_root/akce/htdocs",
     # sub for subdomains
-    "rpghrac" : "/srv/www/rpghrac.cz/www_root/htdocs/sub",
+    "rpghrac" : "/srv/rpghrac.cz/www_root/htdocs/sub",
     # sub for subdomains
-    "metaplayer" : "/srv/www/rpghrac.cz/www_root/htdocs/meta",
+    "metaplayer" : "/srv/rpghrac.cz/www_root/htdocs/meta",
 }
 
 # this might be read from mypage-all/runcommand.py to have things on one place
@@ -75,7 +75,7 @@ def deploy(meta_version, dist_dir, rpgplanet_version, rpghrac_version, rpgcommon
     }
 
     env.applicationpath = '/srv/applications/w-rpgplanet-cz/rpgplanet/%s' % env.meta_version
-    env.user = 'w-rpgplanet-cz'
+    env.user = 'w-almad'
 
     deploy_to_server()
 
@@ -111,7 +111,7 @@ def restart_services():
         # this sucks and shall be handled by startup/service; when some oracle will answer
         # http://stackoverflow.com/questions/3431029/socket-permissions-when-running-django-with-fastcgi
         # we'll get rid of it
-        run('sudo chmod 0770 /var/www/fastcgi/sockets/w-rpgplanet-cz/%s.socket' % service)
+        run('sudo chmod 0770 /var/www/fastcgi/sockets/w-almad/%s.socket' % service)
 
 def downgrade_release():
     raise NotImplementedError()

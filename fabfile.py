@@ -74,7 +74,7 @@ def deploy(meta_version, dist_dir, rpgplanet_version, rpghrac_version, rpgcommon
         'metaplayer' : metaplayer_version,
     }
 
-    env.applicationpath = '/srv/applications/w-rpgplanet-cz/rpgplanet/%s' % env.meta_version
+    env.applicationpath = '/srv/applications/w-almad/rpgplanet/%s' % env.meta_version
     env.user = 'w-almad'
 
     deploy_to_server()

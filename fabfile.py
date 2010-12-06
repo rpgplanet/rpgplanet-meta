@@ -101,7 +101,7 @@ def migrate_database():
 def restart_services():
     """Restart all project lighties"""
     for service in env.services:
-        run('sudo svc -t /etc/service/%s' % service)
+        run('sudo svc -t /service/%s' % service)
     
     # give services a sec or five to start up
     from time import sleep

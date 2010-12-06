@@ -90,7 +90,7 @@ def resymlink_media():
 
 def resymlink_release():
     """Symlink our current release, uploads and settings file"""
-    run('cd %(applicationpath)s && cd .. && if [ -e `pwd`/current ]; then rm `pwd`/current; fi; && ln -sf %(applicationpath)s `pwd`/current' % env)
+    run('cd %(applicationpath)s && cd .. && if [ -e `pwd`/current ]; then rm `pwd`/current; fi && ln -sf %(applicationpath)s `pwd`/current' % env)
 
 def migrate_database():
     """Run our migrations"""

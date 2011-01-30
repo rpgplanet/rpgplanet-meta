@@ -15,7 +15,7 @@ env.project_docroots = project_docroots = {
 # Anyways, YAGNI, it's no such PITA to script this out. Reconsider when we are
 # going to have more than 10 sites deployed.
 
-env.services = project_docroots.keys()
+env.services = ['rpgplanet.cz', 'rpghrac.cz', 'akce.rpgplanet.cz']
 
 env.projects = projects = (
     "rpgcommon",
